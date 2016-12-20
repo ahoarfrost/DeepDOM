@@ -41,10 +41,10 @@ fig2 <- ggplot(maxes,aes(x=substrate,y=mean.kcRate.nM.hr,fill=substrate)) + geom
 print(fig2)
 dev.off()
 #b/w version
-#tiff("figures/BWFig2_FLAbarplotPanels.tiff",width=5,height=4.2,units="in",res=1200)
-#fig2 <- ggplot(maxes,aes(x=substrate,y=mean.kcRate.nM.hr,fill=substrate)) + geom_bar(position="dodge",stat="identity",color="black",size=0.2) + facet_grid(depthlabel~stn) + errorbars + scale_fill_grey(start=1,end=0) + coord_cartesian(ylim=c(0,20)) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + labs(y=substitute(paste("Maximum Hydrolysis Rate (nM ",hr^-1,")"))) + geom_text(data=ann, label="*") + geom_point(data=maxSub,aes(x=substrate,y=kcRate.1.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.2.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.3.nM.hr),alpha=0.4,size=1.3) + theme_barplot
-#print(fig2)
-#dev.off()
+tiff("figures/BWFig2_FLAbarplotPanels.tiff",width=5,height=4.2,units="in",res=1200)
+bwfig2 <- ggplot(maxes,aes(x=substrate,y=mean.kcRate.nM.hr,fill=substrate)) + geom_bar(position="dodge",stat="identity",color="black",size=0.2) + facet_grid(depthlabel~stn) + errorbars + scale_fill_grey(start=1,end=0) + coord_cartesian(ylim=c(0,20)) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + labs(y=substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann, label="*") + geom_point(data=maxSub,aes(x=substrate,y=kcRate.1.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.2.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.3.nM.hr),alpha=0.4,size=1.3) + theme_barplot
+print(bwfig2)
+dev.off()
 
 
 ###################Figure 3 - Shannon Diversity###################
@@ -232,10 +232,11 @@ mon_errorbars <- geom_errorbar(aes(ymin=mean.kcRate.nM.hr-sd.kcRate.nM.hr,ymax=m
 theme_monbarplot <- theme_bw() + theme(axis.title=element_text(size=10),axis.text.x=element_text(size=6),axis.text.y=element_text(size=7.5),strip.background=element_rect(fill="grey93"),axis.title.x=element_text(vjust=0.5),axis.title.y=element_text(vjust=0.5),legend.position="none",panel.grid.major=element_line(color="grey93"),panel.grid.minor=element_blank()) 
 
 tiff("figures/Fig6_ShortSubBarplot.tiff",width=5,height=4,units="in",res=1200)
-fig6 <- ggplot(monmaxes,aes(x=substrate,y=mean.kcRate.nM.hr)) + geom_bar(stat="identity",aes(fill=substrate),color="black",size=0.1) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + scale_fill_manual(values=MonColors) + facet_grid(depthlabel~stn) + coord_flip(ylim=c(0,20)) + mon_errorbars + ylab(substitute(paste("Maximum Hydrolysis Rate (nM ",hr^-1,")"))) + geom_text(data=ann,y=15,label="43.0",size=2,vjust=-0.2) + theme_monbarplot
+fig6 <- ggplot(monmaxes,aes(x=substrate,y=mean.kcRate.nM.hr)) + geom_bar(stat="identity",aes(fill=substrate),color="black",size=0.1) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + scale_fill_manual(values=MonColors) + facet_grid(depthlabel~stn) + coord_flip(ylim=c(0,20)) + mon_errorbars + ylab(substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann,y=15,label="43.0",size=2,vjust=-0.2) + theme_monbarplot
 print(fig6)
 dev.off()
 #B/W version
-#tiff("figures/BWFig6_ShortSubBarplot.tiff",width=5,height=4,units="in",res=1200)
-#ggplot(monmaxes,aes(x=substrate,y=mean.kcRate.nM.hr)) + geom_bar(stat="identity",aes(fill=substrate),color="black",size=0.1) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + scale_fill_grey(start=0.7,end=0.3) + facet_grid(depthlabel~stn) + coord_flip(ylim=c(0,20)) + mon_errorbars + ylab(substitute(paste("Maximum Hydrolysis Rate (nM ",hr^-1,")"))) + geom_text(data=ann,y=15,label="43.0",size=2,vjust=-0.2) + theme_monbarplot
-#dev.off()
+tiff("figures/BWFig6_ShortSubBarplot.tiff",width=5,height=4,units="in",res=1200)
+bwfig6 <- ggplot(monmaxes,aes(x=substrate,y=mean.kcRate.nM.hr)) + geom_bar(stat="identity",aes(fill=substrate),color="black",size=0.1) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + scale_fill_grey(start=0.7,end=0.3) + facet_grid(depthlabel~stn) + coord_flip(ylim=c(0,20)) + mon_errorbars + ylab(substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann,y=15,label="43.0",size=2,vjust=-0.2) + theme_monbarplot
+print(bwfig6)
+dev.off()
