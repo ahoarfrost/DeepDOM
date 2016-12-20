@@ -19,7 +19,8 @@ maxes$substrate <- revalue(maxes$substrate, c("ara"="A","chon"="C","fuc"="F","la
 monmaxes$substrate <- revalue(monmaxes$substrate, c("aglu"="G","Leu"="Le"))
 
 #define color palette for substrates, stn and depth
-FlaColors <- brewer.pal(n=6,name="Set3")
+#FlaColors <- brewer.pal(n=6,name="Set3")
+FlaColors <- c("white","turquoise","green3","lightgoldenrod1","dodgerblue4","firebrick")
 FlaColorsBold <- c("#8DD3C7","lightgoldenrod1","#BEBADA","#FB8072","#80B1D3","#FDB462") 
 names(FlaColors) <- levels(maxes$substrate)
 names(FlaColorsBold) <- levels(maxes$substrate)
@@ -36,7 +37,7 @@ errorbars <- geom_errorbar(aes(ymax=(mean.kcRate.nM.hr+sd.kcRate.nM.hr), ymin=(m
 theme_barplot <- theme_bw() + theme(axis.text.y=element_text(size=9),strip.background=element_rect(fill="grey93"),axis.title.x=element_text(vjust=0.1),axis.title.y=element_text(vjust=0.5),legend.position="none",panel.grid.major=element_line(color="grey93"),panel.grid.minor=element_blank()) 
 
 tiff("figures/Fig2_FLAbarplotPanels.tiff",width=5,height=4.2,units="in",res=1200)
-fig2 <- ggplot(maxes,aes(x=substrate,y=mean.kcRate.nM.hr,fill=substrate)) + geom_bar(position="dodge",stat="identity",color="black",size=0.2) + facet_grid(depthlabel~stn) + errorbars + scale_fill_manual(name="substrate",values=FlaColors) + coord_cartesian(ylim=c(0,20)) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + labs(y=substitute(paste("Maximum Hydrolysis Rate (nM ",hr^-1,")"))) + geom_text(data=ann, label="*") + geom_point(data=maxSub,aes(x=substrate,y=kcRate.1.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.2.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.3.nM.hr),alpha=0.4,size=1.3) + theme_barplot
+fig2 <- ggplot(maxes,aes(x=substrate,y=mean.kcRate.nM.hr,fill=substrate)) + geom_bar(position="dodge",stat="identity",color="black",size=0.2) + facet_grid(depthlabel~stn) + errorbars + scale_fill_manual(name="substrate",values=FlaColors) + coord_cartesian(ylim=c(0,20)) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + labs(y=substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann, label="*") + geom_point(data=maxSub,aes(x=substrate,y=kcRate.1.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.2.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.3.nM.hr),alpha=0.4,size=1.3) + theme_barplot
 print(fig2)
 dev.off()
 #b/w version
