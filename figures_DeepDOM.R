@@ -33,16 +33,18 @@ cols.dep <- c("light blue","cornflowerblue","midnightblue")
 ###################Figure 2 - FLA max hydrolysis panels by site###################
 maxSub <- subset(maxes,(mean.kcRate.nM.hr)>0)
 ann <- data.frame(stn="stn15",depthlabel="meso",substrate="Y",mean.kcRate.nM.hr=10)
+#add value labels to low activity you can barely see in 
+low_values <- data.frame(stn=c("stn2","stn2","stn4","stn10","stn10","stn15","stn18","stn18"),depthlabel=c("AAIW","NADW","AAIW","NADW","bot","NADW","AAIW","NADW"),substrate=rep("L",8),mean.kcRate.nM.hr=rep(4.3,8),label=c("0.4","0.1","0.4","0.2","0.1","0.2","0.6","0.6"))
 errorbars <- geom_errorbar(aes(ymax=(mean.kcRate.nM.hr+sd.kcRate.nM.hr), ymin=(mean.kcRate.nM.hr-sd.kcRate.nM.hr)),width=0.5,color="grey25",alpha=0.6,size=0.4)
 theme_barplot <- theme_bw() + theme(axis.text.y=element_text(size=9),strip.background=element_rect(fill="grey93"),axis.title.x=element_text(vjust=0.1),axis.title.y=element_text(vjust=0.5),legend.position="none",panel.grid.major=element_line(color="grey93"),panel.grid.minor=element_blank()) 
 
 tiff("figures/Fig2_FLAbarplotPanels.tiff",width=5,height=4.2,units="in",res=1200)
-fig2 <- ggplot(maxes,aes(x=substrate,y=mean.kcRate.nM.hr,fill=substrate)) + geom_bar(position="dodge",stat="identity",color="black",size=0.2) + facet_grid(depthlabel~stn) + errorbars + scale_fill_manual(name="substrate",values=FlaColors) + coord_cartesian(ylim=c(0,20)) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + labs(y=substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann, label="*") + geom_point(data=maxSub,aes(x=substrate,y=kcRate.1.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.2.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.3.nM.hr),alpha=0.4,size=1.3) + theme_barplot
+fig2 <- ggplot(maxes,aes(x=substrate,y=mean.kcRate.nM.hr,fill=substrate)) + geom_bar(position="dodge",stat="identity",color="black",size=0.2) + facet_grid(depthlabel~stn) + errorbars + scale_fill_manual(name="substrate",values=FlaColors) + coord_cartesian(ylim=c(0,20)) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + labs(y=substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann, label="*") + geom_text(data=low_values,aes(label=label),size=2.2,family="Arial") + geom_point(data=maxSub,aes(x=substrate,y=kcRate.1.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.2.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.3.nM.hr),alpha=0.4,size=1.3) + theme_barplot
 print(fig2)
 dev.off()
 #b/w version
 tiff("figures/BWFig2_FLAbarplotPanels.tiff",width=5,height=4.2,units="in",res=1200)
-bwfig2 <- ggplot(maxes,aes(x=substrate,y=mean.kcRate.nM.hr,fill=substrate)) + geom_bar(position="dodge",stat="identity",color="black",size=0.2) + facet_grid(depthlabel~stn) + errorbars + scale_fill_grey(start=1,end=0) + coord_cartesian(ylim=c(0,20)) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + labs(y=substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann, label="*") + geom_point(data=maxSub,aes(x=substrate,y=kcRate.1.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.2.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.3.nM.hr),alpha=0.4,size=1.3) + theme_barplot
+bwfig2 <- ggplot(maxes,aes(x=substrate,y=mean.kcRate.nM.hr,fill=substrate)) + geom_bar(position="dodge",stat="identity",color="black",size=0.2) + facet_grid(depthlabel~stn) + errorbars + scale_fill_grey(start=1,end=0) + coord_cartesian(ylim=c(0,20)) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + labs(y=substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann, label="*") + geom_text(data=low_values,aes(label=label),size=2.2,family="Arial") + geom_point(data=maxSub,aes(x=substrate,y=kcRate.1.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.2.nM.hr),alpha=0.4,size=1.3) + geom_point(data=maxSub, aes(x=substrate,y=kcRate.3.nM.hr),alpha=0.4,size=1.3) + theme_barplot
 print(bwfig2)
 dev.off()
 
@@ -227,16 +229,17 @@ dev.off()
 
 
 #################Figure 6 - Short Substrate Barplot####################
-ann <- monmaxes[monmaxes$stn=="stn7"&monmaxes$depthid=="d2"&monmaxes$substrate=="G",]
+ann_mon <- monmaxes[monmaxes$stn=="stn7"&monmaxes$depthid=="d2"&monmaxes$substrate=="G",]
+mon_lowvalues <- data.frame(stn=monmaxes_lowdeepvalues$stn,depthlabel=monmaxes_lowdeepvalues$depthlabel,substrate=monmaxes_lowdeepvalues$substrate,mean.kcRate.nM.hr=rep(6,nrow(monmaxes_lowdeepvalues)),label=c(0.02, 0.4, 0.1, 0.02, 0.3, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.02, 0.2, 0.1, 0.04, 0.4, 0.1, 0.2, 0.3, 0.2, 0.1, 0.3, 0.2, 0.3, 0.2))
 mon_errorbars <- geom_errorbar(aes(ymin=mean.kcRate.nM.hr-sd.kcRate.nM.hr,ymax=mean.kcRate.nM.hr+sd.kcRate.nM.hr),width=0.5,color="grey25",alpha=0.6,size=0.3) 
 theme_monbarplot <- theme_bw() + theme(axis.title=element_text(size=10),axis.text.x=element_text(size=6),axis.text.y=element_text(size=7.5),strip.background=element_rect(fill="grey93"),axis.title.x=element_text(vjust=0.5),axis.title.y=element_text(vjust=0.5),legend.position="none",panel.grid.major=element_line(color="grey93"),panel.grid.minor=element_blank()) 
 
 tiff("figures/Fig6_ShortSubBarplot.tiff",width=5,height=4,units="in",res=1200)
-fig6 <- ggplot(monmaxes,aes(x=substrate,y=mean.kcRate.nM.hr)) + geom_bar(stat="identity",aes(fill=substrate),color="black",size=0.1) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + scale_fill_manual(values=MonColors) + facet_grid(depthlabel~stn) + coord_flip(ylim=c(0,20)) + mon_errorbars + ylab(substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann,y=15,label="43.0",size=2,vjust=-0.2) + theme_monbarplot
+fig6 <- ggplot(monmaxes,aes(x=substrate,y=mean.kcRate.nM.hr)) + geom_bar(stat="identity",aes(fill=substrate),color="black",size=0.1) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + scale_fill_manual(values=MonColors) + facet_grid(depthlabel~stn) + coord_flip(ylim=c(0,20)) + mon_errorbars + ylab(substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann_mon,y=15,label="43.0",size=2,vjust=-0.2) + geom_text(data=mon_lowvalues,aes(label=label),size=2,family="Arial") + theme_monbarplot
 print(fig6)
 dev.off()
 #B/W version
 tiff("figures/BWFig6_ShortSubBarplot.tiff",width=5,height=4,units="in",res=1200)
-bwfig6 <- ggplot(monmaxes,aes(x=substrate,y=mean.kcRate.nM.hr)) + geom_bar(stat="identity",aes(fill=substrate),color="black",size=0.1) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + scale_fill_grey(start=0.7,end=0.3) + facet_grid(depthlabel~stn) + coord_flip(ylim=c(0,20)) + mon_errorbars + ylab(substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann,y=15,label="43.0",size=2,vjust=-0.2) + theme_monbarplot
+bwfig6 <- ggplot(monmaxes,aes(x=substrate,y=mean.kcRate.nM.hr)) + geom_bar(stat="identity",aes(fill=substrate),color="black",size=0.1) + scale_y_continuous(breaks=c(0,5,10,15,20),labels=c("0","5","10","15","")) + scale_fill_grey(start=0.7,end=0.3) + facet_grid(depthlabel~stn) + coord_flip(ylim=c(0,20)) + mon_errorbars + ylab(substitute(paste("Maximum Hydrolysis Rate (nM ",h^-1,")"))) + geom_text(data=ann_mon,y=15,label="43.0",size=2,vjust=-0.2) + geom_text(data=mon_lowvalues,aes(label=label),size=2,family="Arial") + theme_monbarplot
 print(bwfig6)
 dev.off()
